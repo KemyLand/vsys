@@ -2,6 +2,7 @@
 
 require_once( 'utilities.php' );
 require_once( 'db.php' );
+require_once( 'versions.php' );
 
 require_administrator();
 
@@ -50,6 +51,15 @@ if( !empty( $_GET[ 'assignee' ] ) ) {
 
 ?>
 
+		<TABLE>
+			<TR>
+				<TH><A HREF="version-manager.php">Administrador de versiones</A></TH>
+			</TR>
+			<TR>
+				<TH>Versión actual</TH>
+				<TD><?php echo( $version_current[ 'name' ] ); ?></TD>
+			</TR>
+		</TABLE>
 		<TABLE>
 			<TR>
 				<TH><A HREF="distributed.php">Modo distributivo</A></TH>
