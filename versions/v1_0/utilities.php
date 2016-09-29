@@ -271,7 +271,7 @@ function make_ini( $a, $parent = array() )
 			$out .= '[' . join( '.', $sec ) . ']' . PHP_EOL;
 			$out .= make_ini( $v, $sec );
 		} else {
-			$out .= "$k=$v" . PHP_EOL;
+			$out .= "$k=\"$v\"" . PHP_EOL;
 		}
 	}
 

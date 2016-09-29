@@ -13,7 +13,7 @@ unset( $remote_version_file[ 'current' ] );
 
 $updated = FALSE;
 foreach( $remote_version_file as $k => $v ) {
-	if( !in_array( $k, $versions ) ) {
+	if( !in_array( $k, array_keys( $versions ) ) ) {
 		$versions[ $k ] = $v;
 		$updated = TRUE;
 	}

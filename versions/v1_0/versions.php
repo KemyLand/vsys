@@ -20,9 +20,7 @@ $version_current = $versions[ $version_current_id ];
 function save_versions()
 {
 	global $config_paths, $versions, $version_current_id;
-	$saved_versions = $versions;
-	$saved_versions[ 'current' ] = $version_current_id;
-	file_put_contents( $config_paths[ 'versions' ] . '/versions.ini', make_ini( $saved_versions ) );
+	file_put_contents( $config_paths[ 'versions' ] . '/versions.ini', 'current=' . $version_current_id . PHP_EOL . make_ini( $versions ) );
 }
 
 ?>
