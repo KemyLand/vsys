@@ -3,6 +3,7 @@
 require_once( 'utilities.php' );
 require_once( 'db.php' );
 require_once( 'curl.php' );
+require_once( 'versions.php' );
 
 require_administrator();
 
@@ -19,8 +20,6 @@ foreach( $remote_version_file as $k => $v ) {
 }
 
 save_versions();
-
-die('123');
 
 if( $updated ) {
 	redirect( 'version-manager.php?found_update=1' );
