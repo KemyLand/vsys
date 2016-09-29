@@ -9,9 +9,11 @@ $versions = array();
 unset( $version_file[ 'current' ] );
 foreach( $version_file as $k => $v ) {
 	$versions[ $k ] = array(
+		'srcs' => $v[ 'srcs' ],
 		'name' => $v[ 'name' ],
 		'date' => $v[ 'date' ],
-		'changelog' => $v[ 'changelog' ]
+		'changelog' => $v[ 'changelog' ],
+		'post_install' => $v[ 'post_install' ];
 	);
 }
 
