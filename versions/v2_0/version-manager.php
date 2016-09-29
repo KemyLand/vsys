@@ -23,7 +23,7 @@ require_administrator();
 if( !empty( $_GET[ 'post_install' ] ) && $_GET[ 'post_install' ] == 1 ) {
 	echo(
 		'<DIV CLASS="infoMessage center">Versión '
-		. $versions_current[ 'name' ]
+		. $version_current[ 'name' ]
 		. ' instalada correctamente.</DIV><DIV CLASS="separator"></DIV>'
 	);
 }

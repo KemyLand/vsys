@@ -14,7 +14,7 @@ $conn = db_connect();
 	<HEAD>
 		<META CHARSET="utf-8"/>
 		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Panel de administraciónnnnn</TITLE>
+		<TITLE>Panel de administración</TITLE>
 	</HEAD>
 	<BODY>
 		<?php upper_header(); ?>
