@@ -1,0 +1,124 @@
+HTML
+{
+	font-family: Gill Sans, Verdana;
+	font-size: 11px;
+	line-height: 14px;
+	letter-spacing: 2px;
+	font-weight: bold;
+	height: 100%;
+	background-color: #DDDDDD;
+}
+
+TABLE
+{
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	empty-cells: hide;
+}
+
+TH
+{
+	border: 3px dotted black;
+}
+
+TD
+{
+	border: 3px dotted dimgrey;
+}
+
+TD, TH
+{
+	padding: 10px;
+	text-align: center;
+}
+
+.ellipsis
+{
+	font-size: 25px;
+	color: #202020;
+}
+
+.checkmark
+{
+	font-size: 25px;
+	color: #000CCC;
+}
+
+.crossmark
+{
+	font-size: 25px;
+	color: #CC0000;
+}
+
+.separator
+{
+	padding-bottom: 35px;
+}
+
+#upperHeader
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #000333;
+}
+
+#upperHeader LI
+{
+	float: left;
+	display: block;
+	color: white;
+	font-size: 10px;
+	text-align: center;
+	padding: 14px 16px;
+}
+
+#upperHeader LI A
+{
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+#upperHeader LI A:hover
+{
+	background-color: #105311;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.errorMessage
+{
+	color: red;
+}
+
+.infoMessage
+{
+	color: blue;
+}
+
+.center
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.monospace
+{
+	font-family: Monospace;
+	font-size: 14;
+}
+
+.source
+{
+	font-family: Monospace;
+	color: #323232;
+	text-align: left;
+}
