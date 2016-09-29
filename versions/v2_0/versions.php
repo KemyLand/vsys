@@ -13,7 +13,7 @@ foreach( $version_file as $k => $v ) {
 		'name' => $v[ 'name' ],
 		'date' => $v[ 'date' ],
 		'changelog' => $v[ 'changelog' ],
-		'post_install' => $v[ 'post_install' ];
+		'post_install' => $v[ 'post_install' ]
 	);
 }
 
