@@ -18,7 +18,7 @@ foreach( $remote_version_file as $k => $v ) {
 		$path = $config_paths[ 'versions' ] . '/' . $k;
 		mkdir( $path );
 		foreach( explode( ',', $v[ 'srcs' ] ) as $src ) {
-			file_put_contents( $path . '/' . $src, do_curl( $repo . '/versions/' . $k . '/' . $src ) );
+			file_put_contents( $path . '/' . $src, do_curl( $repo . '/' . $k . '/' . $src ) );
 		}
 		$updated = TRUE;
 	}
