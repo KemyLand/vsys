@@ -60,6 +60,7 @@ if( !empty( $_GET[ 'assignee' ] ) ) {
 				<TD><?php echo( $version_current[ 'name' ] ); ?></TD>
 			</TR>
 		</TABLE>
+		<DIV CLASS="separator"></DIV>
 		<TABLE>
 			<TR>
 				<TH><A HREF="distributed.php">Modo distributivo</A></TH>
