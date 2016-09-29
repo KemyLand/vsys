@@ -48,7 +48,7 @@ if( !empty( $_GET[ 'found_update' ] ) && $_GET[ 'found_update' ] == 1 ) {
 		<TABLE>
 			<TR>
 				<TH>Versión activa</TH>
-				<TD><?php echo( $versions_current_name ); ?></TD>
+				<TD><?php echo( $version_current[ 'name' ] ); ?></TD>
 			</TR>
 			<TR>
 				<TH><A HREF="sync-versions.php">Buscar actualizaciones</A></TH
