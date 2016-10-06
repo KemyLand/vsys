@@ -4,12 +4,14 @@ require_once( 'utilities.php' );
 require_once( 'db.php' );
 require_property( 'enable_distributed_mode', FALSE );
 
-if( session_status() == PHP_SESSION_ACTIVE ) {
+if( session_status() == PHP_SESSION_ACTIVE )
+{
 	session_unset();
 	session_destroy();
 }
 
-if( empty( $_POST[ 'username' ] ) || empty( $_POST[ 'password' ] ) ) {
+if( !post_check( 'username' ) || !post_check( 'password' ) )
+{
 	redirect( 'login.php' );
 }
 
@@ -24,9 +26,10 @@ $query
 	. $password
 	. '")';
 
-if( db_query( $conn, $query )->fetch_row()[0] == 0 ) {
-	$event =
-		'Fallo de inicio de sesión con nombre de usuario '
+if( db_query( $conn, $query )->fetch_row()[0] == 0 )
+{
+	$event
+		= 'Fallo de inicio de sesión con nombre de usuario '
 		. $username
 		. ' desde '
 		. $_SERVER[ 'REMOTE_ADDR' ];
@@ -37,8 +40,8 @@ if( db_query( $conn, $query )->fetch_row()[0] == 0 ) {
 	redirect( 'login.php?failed=1' );
 }
 
-$query =
-	'SELECT id, first_name, last_name, class FROM Users WHERE username="'
+$query
+	= 'SELECT id, first_name, last_name, class FROM Users WHERE username="'
 	. $username
 	. '"';
 
@@ -59,8 +62,8 @@ $_SESSION[ 'first_name' ] = $first_name;
 $_SESSION[ 'last_name' ] = $last_name;
 $_SESSION[ 'class' ] = $user_class;
 
-$event =
-	'Inicio de sesión por '
+$event
+	= 'Inicio de sesión por '
 	. $first_name
 	. ' '
 	. $last_name

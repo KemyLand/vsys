@@ -2,13 +2,18 @@
 
 require_once( 'utilities.php' );
 
-function do_curl( $url )
+function do_curl
+(
+	$url
+)
 {
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
-	$output = curl_exec( $ch );
-	curl_close( $ch );
+	$handler = curl_init();
+	curl_setopt( $handler, CURLOPT_URL, $url );
+	curl_setopt( $handler, CURLOPT_RETURNTRANSFER, TRUE );
+
+	$output = curl_exec( $handler );
+	curl_close( $handler );
+
 	return $output;
 }
 

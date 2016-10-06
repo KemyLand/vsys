@@ -8,44 +8,35 @@ require_administrator();
 
 $conn = db_connect();
 
-?>
+upper_header( 'Panel de administración' );
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Panel de administración</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
-
-<?php
-
-if( !empty( $_GET[ 'password_mismatch' ] ) && $_GET[ 'password_mismatch' ] == 1 ) {
-	echo(
-		'<DIV CLASS="errorMessage center">Las contraseñas no coinciden.</DIV>'
-		. '<DIV CLASS="separator"></DIV>'
+if( get_bool( 'password_mismatch' )
+{
+	echo
+	( '<DIV CLASS="errorMessage center">Las contraseñas no coinciden.</DIV>'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
-if( !empty( $_GET[ 'ran_out' ] ) && $_GET[ 'ran_out' ] == 1 ) {
-	echo(
-		'<DIV CLASS="errorMessage center">La lista de usuarios fue agotada. No se asignaron clientes.</DIV>'
-		. '<DIV CLASS="separator"></DIV>'
+if( get_bool( 'ran_out' ) )
+{
+	echo
+	( '<DIV CLASS="errorMessage center">La lista de usuarios fue agotada. No se asignaron clientes.</DIV>'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
-if( !empty( $_GET[ 'assignee' ] ) ) {
-	$query =
-		'SELECT first_name, last_name FROM Users WHERE id='
+if( get_check( 'assignee' ) )
+{
+	$query
+		= 'SELECT first_name, last_name FROM Users WHERE id='
 		. $_GET[ 'assignee' ];
 
 	$result = db_query( $conn, $query )->fetch_assoc();
-	echo(
-		'<DIV CLASS="infoMessage center">La máquina cliente fue asignada al usuario '
-		. $result[ 'first_name' ] . ' ' . $result[ 'last_name' ]
-		. '.</DIV><DIV CLASS="separator"></DIV>'
+	echo
+	( '<DIV CLASS="infoMessage center">La máquina cliente fue asignada al usuario '
+	. $result[ 'first_name' ] . ' ' . $result[ 'last_name' ]
+	. '.</DIV><DIV CLASS="separator"></DIV>'
 	);
 }
 
@@ -144,34 +135,52 @@ if( !empty( $_GET[ 'assignee' ] ) ) {
 
 <?php
 
-function show_row( $id, $username, $first_name, $last_name, $user_class ) {
-	if( $user_class == 0 ) {
-		$formatted_class = "Estudiante";
-	} elseif( $user_class == 1 ) {
-		$formatted_class = "Moderador";
-	} elseif( $user_class == 2 ) {
-		$formatted_class = "Administrador";
+function show_row
+(
+	$id,
+	$username,
+	$first_name,
+	$last_name,
+	$user_class
+)
+{
+	if( $user_class == 0 )
+	{
+		$formatted_class = 'Estudiante';
+	} elseif( $user_class == 1 )
+	{
+		$formatted_class = 'Moderador';
+	} elseif( $user_class == 2 )
+	{
+		$formatted_class = 'Administrador';
 	}
 
-	echo(
-		'<TR><TD>'
-		. $id
-		. '</TD><TD>'
-		. $username
-		. '</TD><TD>'
-		. $first_name
-		. '</TD><TD>'
-		. $last_name
-		. '</TD><TD>'
-		. $formatted_class
-		. '</TD></TR>'
+	echo
+	( '<TR><TD>'
+	. $id
+	. '</TD><TD>'
+	. $username
+	. '</TD><TD>'
+	. $first_name
+	. '</TD><TD>'
+	. $last_name
+	. '</TD><TD>'
+	. $formatted_class
+	. '</TD></TR>'
 	);
 }
 
 $query = 'SELECT id, username, first_name, last_name, class FROM Users';
 $result = db_query( $conn, $query );
-while( $row = $result->fetch_assoc() ) {
-	show_row( $row[ 'id' ], $row[ 'username' ], $row[ 'first_name' ], $row[ 'last_name' ], $row[ 'class' ] );
+while( $row = $result->fetch_assoc() )
+{
+	show_row
+	( $row[ 'id' ],
+	  $row[ 'username' ],
+	  $row[ 'first_name' ],
+	  $row[ 'last_name' ],
+	  $row[ 'class' ]
+	);
 }
 
 db_disconnect( $conn );
@@ -187,13 +196,17 @@ db_disconnect( $conn );
 
 <?php
 
-function show_css_switcher( $name, $filename )
+function show_css_switcher
+(
+	$name,
+	$filename
+)
 {
-	echo(
-		'<TR>'
-		. '<TD>' . html( $name ) . '</TD>'
-		. '<TD><A HREF="select-style.php?filename=' . $filename . '">Seleccionar</TD>'
-		. '</TR>'
+	echo
+	( '<TR>'
+	  . '<TD>' . html( $name ) . '</TD>'
+	  . '<TD><A HREF="select-style.php?filename=' . $filename . '">Seleccionar</TD>'
+	  . '</TR>'
 	);
 }
 
@@ -217,12 +230,13 @@ show_css_switcher( 'Elecciones', 'election-style.css' );
 <?php
 
 global $sys_config;
-foreach( $sys_config as $k => $v ) {
-	echo(
-		'<TR>'
-		. '<TD>' . html( $k ) . '</TD>'
-		. '<TD><INPUT TYPE="text" NAME="' . $k . '" VALUE="' . html( $v ) . '"/></TD>'
-		. '</TR>'
+foreach( $sys_config as $k => $v )
+{
+	echo
+	( '<TR>'
+	. '<TD>' . html( $k ) . '</TD>'
+	. '<TD><INPUT TYPE="text" NAME="' . $k . '" VALUE="' . html( $v ) . '"/></TD>'
+	. '</TR>'
 	);
 }
 
@@ -233,6 +247,5 @@ foreach( $sys_config as $k => $v ) {
 				</TR>
 			</TABLE>
 		</FORM>
-	</DIV>
-	</BODY>
-</HTML>
+
+<?php lower_header(); ?>

@@ -7,38 +7,28 @@ require_administrator();
 
 $conn = db_connect();
 
-?>
-
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Modo distributivo</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
-
-<?php
+upper_header( 'Modo distribuido' );
 
 
-if( !empty( $_GET[ 'ran_out' ] ) && $_GET[ 'ran_out' ] == 1 ) {
-	echo(
-		'<DIV CLASS="errorMessage center">La lista de usuarios fue agotada. No se asignaron clientes.'
-		. '<DIV CLASS="separator"></DIV>'
+if( get_bool( 'ran_out' ) )
+{
+	echo
+	( '<DIV CLASS="errorMessage center">La lista de usuarios fue agotada. No se asignaron clientes.'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
-if( !empty( $_GET[ 'assignee' ] ) ) {
-	$query =
-		'SELECT first_name, last_name FROM Users WHERE id='
+if( !get_check( 'assignee' ) )
+{
+	$query
+		= 'SELECT first_name, last_name FROM Users WHERE id='
 		. $_GET[ 'assignee' ];
 
 	$result = db_query( $conn, $query )->fetch_assoc();
-	echo(
-		'<DIV CLASS="infoMessage center">La máquina cliente fue asignada al usuario '
-		. $result[ 'first_name' ] . ' ' . $result[ 'last_name' ]
-		. '.</DIV><DIV CLASS="separator"></DIV>'
+	echo
+	( '<DIV CLASS="infoMessage center">La máquina cliente fue asignada al usuario '
+	. $result[ 'first_name' ] . ' ' . $result[ 'last_name' ]
+	. '.</DIV><DIV CLASS="separator"></DIV>'
 	);
 }
 
@@ -71,57 +61,62 @@ if( !empty( $_GET[ 'assignee' ] ) ) {
 <?php
 
 if( $sys_config[ 'enable_distributed_mode' ] ) {
-	echo(
-		'<DIV CLASS="separator"></DIV><TABLE>'
-		. '<TR><TH>Máquinas cliente</TH></TR>'
-		. '<TR><TH>Dirección</TH><TH>Estado</TH></TR>'
+	echo
+	( '<DIV CLASS="separator"></DIV><TABLE>'
+	. '<TR><TH>Máquinas cliente</TH></TR>'
+	. '<TR><TH>Dirección</TH><TH>Estado</TH></TR>'
 	);
 
 	$query = 'SELECT id, address, user FROM DistributedClients';
 	$result = db_query( $conn, $query );
-	while( $row = $result->fetch_assoc() ) {
+	while( $row = $result->fetch_assoc() )
+	{
 		$id = $row[ 'id' ];
 		$address = $row[ 'address' ];
 		$user = $row[ 'user' ];
 
-		echo(
-			'<TR><TD>'
-			. $address
-			. '</TD><TD>'
+		echo
+		( '<TR><TD>'
+		. $address
+		. '</TD><TD>'
 		);
 
-		if( !empty( $user ) ) {
-			$query =
-				'SELECT first_name, last_name FROM Users WHERE id='
+		if( !empty( $user ) )
+		{
+			$query
+				= 'SELECT first_name, last_name FROM Users WHERE id='
 				. $user;
 
 			$subresult = db_query( $conn, $query )->fetch_assoc();
-			echo(
-				'Asignado a usuario '
-				. $subresult[ 'first_name' ] . ' ' . $subresult[ 'last_name' ]
+			echo
+			( 'Asignado a usuario '
+			. $subresult[ 'first_name' ] . ' ' . $subresult[ 'last_name' ]
 			);
 
 			$is_allocated = TRUE;
-		} else {
+		} else
+		{
 			echo( 'Inactivo' );
 			$is_allocated = FALSE;
 		}
 
 		echo( '</TD>' );
-		if( $is_allocated ) {
-			echo(
-				'<TD><A HREF="distributed-assign.php?id='
-				. $id
-				. '&release=1">Reasignar</A></TD>'
-				. '<TD><A HREF="distributed-release.php?id='
-				. $id
-				. '">Liberar</A></TD>'
+		if( $is_allocated )
+		{
+			echo
+			( '<TD><A HREF="distributed-assign.php?id='
+			. $id
+			. '&release=1">Reasignar</A></TD>'
+			. '<TD><A HREF="distributed-release.php?id='
+			. $id
+			. '">Liberar</A></TD>'
 			);
-		} else {
-			echo(
-				'<TD><A HREF="distributed-assign.php?id='
-				. $id
-				. '">Asignar</A></TD>'
+		} else
+		{
+			echo
+			( '<TD><A HREF="distributed-assign.php?id='
+			. $id
+			. '">Asignar</A></TD>'
 			);
 		}
 
@@ -132,9 +127,6 @@ if( $sys_config[ 'enable_distributed_mode' ] ) {
 }
 
 db_disconnect( $conn );
+lower_header();
 
 ?>
-
-	</DIV>
-	</BODY>
-</HTML>

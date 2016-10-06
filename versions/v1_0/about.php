@@ -1,22 +1,15 @@
 <?php
 
-require_once	( 'utilities.php' );
+require_once( 'utilities.php' );
 require_once( 'db.php' );
 
 require_login();
 require_properties( 'enable_about_page' );
 
+upper_header( 'Acerca de' );
+
 ?>
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Acerca de</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
 		<TABLE>
 			<TR>
 				<TH>Licencia y derechos de autor</TH>
@@ -24,7 +17,7 @@ require_properties( 'enable_about_page' );
 			<TR>
 				<TD CLASS="monospace">
 					<P>
-						Copyright &copy 2016: Alejandro Soto &lt;alejandrosotochacon@yahoo.es&gt;
+						Copyright &copy; 2016: Alejandro Soto &lt;alejandrosotochacon@yahoo.es&gt;
 					</P>
 					<P>
 						Este programa es software libre; usted puede redistribuirlo y/o modificarlo
@@ -48,31 +41,42 @@ require_properties( 'enable_about_page' );
 
 <?php
 
-foreach( scandir( getcwd() ) as $path ) {
-	if( $path[0] == '.' ) {
+foreach( scandir( getcwd() ) as $path )
+{
+	if( $path[0] == '.' )
+	{
 		continue;
 	}
 
-	if( !is_link( $path ) ) {
-		echo(
-			'<TR><TH>Código fuente de <I>'
-			. html( $path )
-			. '</I></TH></TR>'
-			. '<TR><TD CLASS="source"><CODE>'
+	if( isdir( $path ) )
+	{
+		echo
+		( '<TR><TH><I>'
+		. html( $path )
+		. ' es un directorio</I></TH></TR>'
+		);
+	} else if( !is_link( $path ) )
+	{
+		echo
+		( '<TR><TH>Código fuente de <I>'
+		. html( $path )
+		. '</I></TH></TR>'
+		. '<TR><TD CLASS="source"><CODE>'
 		);
 
-		$file = fopen( $path, 'r' ) or die( 'Unable to open ' . $file );
+		$file = fopen( $path, 'r' );
 		echo( html( fread( $file, filesize( $path ) ) ) );
 		fclose( $file );
 
 		echo( '</CODE></TD></TR>' );
-	} else {
-		echo(
-			'<TR><TH><I>'
-			. html( $path )
-			. '</I> es un enlace simbólico a <I>'
-			. html( readlink( $path ) )
-			. '</I></TH></TR>'
+	} else
+	{
+		echo
+		( '<TR><TH><I>'
+		. html( $path )
+		. '</I> es un enlace simbólico a <I>'
+		. html( readlink( $path ) )
+		. '</I></TH></TR>'
 		);
 	}
 }
@@ -80,6 +84,5 @@ foreach( scandir( getcwd() ) as $path ) {
 ?>
 
 		</TABLE>
-	</DIV>
-	</BODY>
-</HTML>
+
+<?php lower_header(); ?>

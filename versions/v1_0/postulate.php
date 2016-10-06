@@ -6,21 +6,10 @@ require_once( 'db.php' );
 require_login();
 require_property( 'enable_proposals' );
 
-?>
+upper_header( 'Postular propuesta' );
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Postular propuesta</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
-
-<?php
-
-if( !empty( $_GET[ 'limit_reached' ] ) && $_GET[ 'limit_reached' ] == 1 ) {
+if( get_bool( 'limit_reached' ) )
+{
 	$conn = db_connect();
 	$query = 'SELECT last_vote FROM Users WHERE id=' . $_SESSION[ 'id' ];
 
@@ -29,11 +18,11 @@ if( !empty( $_GET[ 'limit_reached' ] ) && $_GET[ 'limit_reached' ] == 1 ) {
 
 	$minutes_ellapsed = intdiv( time() - $last_vote_date, 60 );
 
-	echo(
-		'<DIV CLASS="errorMessage center">Usted postuló una propuesta por última vez '
-		. 'hace ' . $minutes_ellapsed . ' minutos. Solo puede postular una '
-		. 'vez cada ' . $vote_limit_in_minutes . ' minutos.</DIV>'
-		. '<DIV CLASS="separator"></DIV>'
+	echo
+	( '<DIV CLASS="errorMessage center">Usted postuló una propuesta por última vez '
+	. 'hace ' . $minutes_ellapsed . ' minutos. Solo puede postular una '
+	. 'vez cada ' . $vote_limit_in_minutes . ' minutos.</DIV>'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
@@ -57,6 +46,5 @@ if( !empty( $_GET[ 'limit_reached' ] ) && $_GET[ 'limit_reached' ] == 1 ) {
 				</TR>
 			</TABLE>
 		</FORM>
-	</DIV>
-	</BODY>
-</HTML>
+
+<?php lower_header(); ?>

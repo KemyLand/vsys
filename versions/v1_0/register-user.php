@@ -5,9 +5,13 @@ require_once( "db.php" );
 
 require_administrator();
 
-if( !isset( $_POST[ 'username' ] ) || !isset( $_POST[ 'password' ] ) ||
-	!isset( $_POST[ 'repeat_password' ] ) || !isset( $_POST[ 'first_name' ] ) ||
-	!isset( $_POST[ 'last_name' ] ) || !isset( $_POST[ 'class' ] ) )
+if
+( !post_check( username' ) ) ||
+  !post_check( password' ) ) ||
+  !post_check( repeat_password' ) ) ||
+  !post_check( first_name' ) ) ||
+  !post_check( last_name' ) ) ||
+  !post_check( class' ) )
 {
 	redirect_main();
 }
@@ -19,7 +23,8 @@ $first_name = $_POST[ 'first_name' ];
 $last_name = $_POST[ 'last_name' ];
 $user_class = $_POST[ 'class' ];
 
-if( $password != $repeat_password ) {
+if( $password != $repeat_password )
+{
 	redirect( 'admin.php?password_mismatch=1' );
 }
 
@@ -40,8 +45,8 @@ $query
 
 db_query( $conn, $query );
 
-$event =
-	'Nuevo usuario '
+$event
+	= 'Nuevo usuario '
 	. $username
 	. ' (' . $first_name . ' ' . $last_name . ') registrado con clase '
 	. $user_class;

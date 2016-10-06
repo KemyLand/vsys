@@ -7,7 +7,8 @@ require_login();
 require_non_hypervisor();
 require_property( 'enable_proposals' );
 
-if( empty( $_POST[ 'description' ] ) || empty( $_POST[ 'long_description' ] ) ) {
+if( !post_check( 'description' ) || !post_check( 'long_description' ) )
+{
 	redirect_main();
 }
 
@@ -24,7 +25,8 @@ $query
 
 $last_vote_date = unformat_date( db_query( $conn, $query )->fetch_assoc()[ 'last_vote' ] );
 $vote_time_limit = $vote_limit_in_minutes * 60;
-if( $_SESSION[ 'class' ] < 1 && time() - $vote_time_limit < $last_vote_date ) {
+if( $_SESSION[ 'class' ] < 1 && time() - $vote_time_limit < $last_vote_date )
+{
 	db_disconnect( $conn );
 	redirect( 'postulate.php?limit_reached=1' );
 }

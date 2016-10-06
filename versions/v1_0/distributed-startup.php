@@ -14,10 +14,11 @@ db_query( $conn, $query );
 $query = 'DELETE FROM DistributedUsers';
 db_query( $conn, $query );
 
-$addresses = explode( ",", $sys_config[ 'distributed_mode_clients' ] );
-foreach( $addresses as $address ) {
-	$query =
-		'INSERT INTO DistributedClients( address, user ) VALUES( "'
+$addresses = explode( ',', $sys_config[ 'distributed_mode_clients' ] );
+foreach( $addresses as $address )
+{
+	$query
+		= 'INSERT INTO DistributedClients( address, user ) VALUES( "'
 		. $address
 		. '", NULL )';
 
@@ -26,9 +27,10 @@ foreach( $addresses as $address ) {
 
 $query = 'SELECT id, class FROM Users';
 $result = db_query( $conn, $query );
-while( $row = $result->fetch_assoc() ) {
-	$query =
-		'INSERT INTO DistributedUsers( user, skipped ) VALUES( '
+while( $row = $result->fetch_assoc() )
+{
+	$query
+		= 'INSERT INTO DistributedUsers( user, skipped ) VALUES( '
 		. $row[ 'id' ]
 		. ', '
 		. ( $row[ 'class' ] <= 1 ? '0' : '1' )
