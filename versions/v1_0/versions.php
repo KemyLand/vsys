@@ -2,7 +2,7 @@
 
 require_once( 'utilities.php' );
 
-$version_file = parse_ini_file( $config_paths[ 'versions' ] . PATH_SEPARATOR . 'versions.ini', TRUE );
+$version_file = parse_ini_file( $config_paths[ 'versions' ] . DIRECTORY_SEPARATOR . 'versions.ini', TRUE );
 $version_current_id = $version_file[ 'current' ];
 
 unset( $version_file[ 'current' ] );
@@ -27,7 +27,7 @@ function save_versions()
 	global $config_paths, $versions, $version_current_id;
 	file_put_contents
 	(
-		$config_paths[ 'versions' ] . PATH_SEPARATOR . 'versions.ini',
+		$config_paths[ 'versions' ] . DIRECTORY_SEPARATOR . 'versions.ini',
 		'current=' . $version_current_id . PHP_EOL . make_ini( $versions )
 	);
 }

@@ -17,11 +17,11 @@ foreach( $remote_version_file as $k => $v )
 	if( !in_array( $k, array_keys( $versions ) ) )
 	{
 		$versions[ $k ] = $v;
-		$path = $config_paths[ 'versions' ] . PATH_SEPARATOR . $k;
+		$path = $config_paths[ 'versions' ] . DIRECTORY_SEPARATOR . $k;
 		mkdir( $path );
 		foreach( explode( ',', $v[ 'srcs' ] ) as $src )
 		{
-			file_put_contents( $path . PATH_SEPARATOR . $src, do_curl( $repo . '/' . $k . '/' . $src ) );
+			file_put_contents( $path . DIRECTORY_SEPARATOR . $src, do_curl( $repo . '/' . $k . '/' . $src ) );
 		}
 
 		$updated = TRUE;

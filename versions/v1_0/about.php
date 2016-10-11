@@ -4,7 +4,7 @@ require_once( 'utilities.php' );
 require_once( 'db.php' );
 
 require_login();
-require_properties( 'enable_about_page' );
+require_property( 'enable_about_page' );
 
 upper_header( 'Acerca de' );
 
@@ -48,7 +48,7 @@ foreach( scandir( getcwd() ) as $path )
 		continue;
 	}
 
-	if( isdir( $path ) )
+	if( is_dir( $path ) )
 	{
 		echo
 		( '<TR><TH><I>'

@@ -23,7 +23,7 @@ foreach( explode( ',', $new_version[ 'srcs' ] ) as $src )
 	file_put_contents
 	(
 		$src,
-		file_get_contents( $config_paths[ 'versions' ] . PATH_SEPARATOR . $id . PATH_SEPARATOR . $src )
+		file_get_contents( $config_paths[ 'versions' ] . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . $src )
 	);
 }
 
