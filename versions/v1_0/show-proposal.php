@@ -7,27 +7,35 @@ require_once( 'meta.php' );
 require_login();
 require_property( 'enable_proposals' );
 
-function denegate_link( $reason, $code ) {
+function denegate_link
+(
+	$reason,
+	$code
+)
+{
 	global $id;
 
-	echo(
-		'<TR><TD><A HREF="denegate.php?id='
-		. $id
-		. '&code='
-		. $code
-		. '">'
-		. html( $reason )
-		. '</A></TD></TR>'
+	echo
+	( '<TR><TD><A HREF="denegate.php?id='
+	. $id
+	. '&code='
+	. $code
+	. '">'
+	. html( $reason )
+	. '</A></TD></TR>'
 	);
 }
 
-if( !isset( $sys_config[ 'sticky_proposal_id' ] ) ) {
-	if( !isset( $_GET[ 'id' ] ) ) {
+if( !isset( $sys_config[ 'sticky_proposal_id' ] ) )
+{
+	if( !get_check( 'id' ) )
+	{
 		redirect_main();
 	}
 
 	$id = $_GET[ 'id' ];
-} else {
+} else
+{
 	$id = $sys_config[ 'sticky_proposal_id' ];
 }
 
@@ -52,17 +60,10 @@ $date = $row[ 'date' ];
 
 $formatted_status = get_status_image( $status ) . ' ' . get_status_description( $status );
 
+upper_header( $description );
+
 ?>
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE><?php echo( html( $description ) ); ?></TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
 		<TABLE ID="proposal">
 			<TR>
 				<TH>Propuesta #<?php echo( html( $id ) ); ?></TH>
@@ -86,21 +87,23 @@ $formatted_status = get_status_image( $status ) . ' ' . get_status_description( 
 
 <?php
 
-foreach( get_proposal_meta( $id ) as $k => $v ) {
-	echo(
-		'<TR><TH>'
-		. html( $k )
-		. '</TH><TD>'
-		. $v
-		. '</TD></TR>'
+foreach( get_proposal_meta( $id ) as $k => $v )
+{
+	echo
+	( '<TR><TH>'
+	. html( $k )
+	. '</TH><TD>'
+	. $v
+	. '</TD></TR>'
 	);
 }
 
-if( $_SESSION[ 'class' ] != 2 ) {
-	echo(
-		'<TR><TH><A HREF="perform-vote.php?id='
-		. $id
-		. '">Votar a favor</A></TH></TR>'
+if( $_SESSION[ 'class' ] != 2 )
+{
+	echo
+	( '<TR><TH><A HREF="perform-vote.php?id='
+	. $id
+	. '">Votar a favor</A></TH></TR>'
 	);
 }
 
@@ -110,7 +113,8 @@ if( $_SESSION[ 'class' ] != 2 ) {
 
 <?php
 
-if( $_SESSION[ 'class' ] >= 1 ) {
+if( $_SESSION[ 'class' ] >= 1 )
+{
 	echo( '<DIV CLASS="separator"></DIV><TABLE><TR><TH>Denegar por</TH></TR>' );
 
 	denegate_link( "Irrelevancia de contexto", 3 );
@@ -122,9 +126,6 @@ if( $_SESSION[ 'class' ] >= 1 ) {
 }
 
 db_disconnect($conn);
+lower_header();
 
 ?>
-
-	</DIV>
-	</BODY>
-</HTML>

@@ -20,17 +20,10 @@ $proposal_query = 'SELECT description FROM Proposals WHERE id=' . $proposal_id;
 $row = db_query( $conn, $proposal_query )->fetch_assoc();
 $proposal_description = $row[ 'description' ];
 
+upper_header( 'Voto #' . $id . ' a favor de "' . $proposal_description . '"' );
+
 ?>
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Voto #<?php echo( $id ); ?> a favor de "<?php echo( html( $proposal_description ) ); ?>"</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
 		<TABLE ID="vote">
 			<TR>
 				<TH>Voto #<?php echo( $id ); ?></TH>
@@ -54,11 +47,7 @@ $proposal_description = $row[ 'description' ];
 
 <?php
 
-db_disconnect($conn);
+db_disconnect( $conn );
+lower_header();
 
 ?>
-
-		</TABLE>
-	</DIV>
-	</BODY>
-</HTML>

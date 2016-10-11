@@ -12,23 +12,29 @@ $remote_version_file = parse_ini_string( do_curl( $repo . '/versions.ini' ), TRU
 unset( $remote_version_file[ 'current' ] );
 
 $updated = FALSE;
-foreach( $remote_version_file as $k => $v ) {
-	if( !in_array( $k, array_keys( $versions ) ) ) {
+foreach( $remote_version_file as $k => $v )
+{
+	if( !in_array( $k, array_keys( $versions ) ) )
+	{
 		$versions[ $k ] = $v;
-		$path = $config_paths[ 'versions' ] . '/' . $k;
+		$path = $config_paths[ 'versions' ] . PATH_SEPARATOR . $k;
 		mkdir( $path );
-		foreach( explode( ',', $v[ 'srcs' ] ) as $src ) {
-			file_put_contents( $path . '/' . $src, do_curl( $repo . '/' . $k . '/' . $src ) );
+		foreach( explode( ',', $v[ 'srcs' ] ) as $src )
+		{
+			file_put_contents( $path . PATH_SEPARATOR . $src, do_curl( $repo . '/' . $k . '/' . $src ) );
 		}
+
 		$updated = TRUE;
 	}
 }
 
 save_versions();
 
-if( $updated ) {
+if( $updated )
+{
 	redirect( 'version-manager.php?found_update=1' );
-} else {
+} else
+{
 	redirect( 'version-manager.php?up_to_date=1' );
 }
 

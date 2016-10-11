@@ -5,7 +5,8 @@ require_once( 'db.php' );
 require_administrator();
 
 $conn = db_connect();
-foreach( $_GET as $k => $v ) {
+foreach( $_GET as $k => $v )
+{
 	$sys_config[ $k ] = $v;
 }
 

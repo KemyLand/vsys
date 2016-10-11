@@ -5,41 +5,33 @@ require_once( 'db.php' );
 require_once( 'versions.php' );
 
 require_administrator();
+upper_header( 'Administrador de versiones' );
 
-?>
+if( get_bool( 'post_install' ) )
+{
+	save_config();
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE>Administrador de versiones</TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
-
-<?php
-
-if( !empty( $_GET[ 'post_install' ] ) && $_GET[ 'post_install' ] == 1 ) {
-	echo(
-		'<DIV CLASS="infoMessage center">Versión '
-		. $version_current[ 'name' ]
-		. ' instalada correctamente.</DIV><DIV CLASS="separator"></DIV>'
+	echo
+	( '<DIV CLASS="infoMessage center">Versión '
+	. $version_current[ 'name' ]
+	. ' instalada correctamente.</DIV><DIV CLASS="separator"></DIV>'
 	);
 }
 
-if( !empty( $_GET[ 'up_to_date' ] ) && $_GET[ 'up_to_date' ] == 1 ) {
-	echo(
-		'<DIV CLASS="infoMessage center">No se encontraron actualizaciones.</DIV>'
-		. '<DIV CLASS="separator"></DIV>'
+if( get_bool( 'up_to_date' ) )
+{
+	echo
+	( '<DIV CLASS="infoMessage center">No se encontraron actualizaciones.</DIV>'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
-if( !empty( $_GET[ 'found_update' ] ) && $_GET[ 'found_update' ] == 1 ) {
-	echo(
-		'<DIV CLASS="infoMessage center">Se encontraron actualizaciones. '
-		. 'Puede instalarlas utilizando el formulario a continuación.</DIV>'
-		. '<DIV CLASS="separator"></DIV>'
+if( get_bool( 'found_update' ) )
+{
+	echo
+	( '<DIV CLASS="infoMessage center">Se encontraron actualizaciones. '
+	. 'Puede instalarlas utilizando el formulario a continuación.</DIV>'
+	. '<DIV CLASS="separator"></DIV>'
 	);
 }
 
@@ -68,19 +60,21 @@ if( !empty( $_GET[ 'found_update' ] ) && $_GET[ 'found_update' ] == 1 ) {
 
 <?php
 
-foreach( $versions as $version_id => $version ) {
-	echo(
-		'<TR>'
-		. '<TD>' . $version[ 'name' ] . '</TD>'
-		. '<TD>' . $version[ 'date' ] . '</TD>'
-		. '<TD>' . $version[ 'changelog' ] . '</TD>'
+foreach( $versions as $version_id => $version )
+{
+	echo
+	( '<TR>'
+	. '<TD>' . $version[ 'name' ] . '</TD>'
+	. '<TD>' . $version[ 'date' ] . '</TD>'
+	. '<TD>' . $version[ 'changelog' ] . '</TD>'
 	);
 
-	if( $version_id != $version_current_id ) {
-		echo(
-			'<TD><A HREF="load-version.php?id='
-			. $version_id
-			. '">Instalar</A></TD>'
+	if( $version_id != $version_current_id )
+	{
+		echo
+		( '<TD><A HREF="load-version.php?id='
+		. $version_id
+		. '">Instalar</A></TD>'
 		);
 	}
 
@@ -91,6 +85,5 @@ foreach( $versions as $version_id => $version ) {
 
 			</TABLE>
 		</FORM>
-	</DIV>
-	</BODY>
-</HTML>
+
+<?php lower_header(); ?>

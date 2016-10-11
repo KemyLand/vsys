@@ -4,12 +4,14 @@ require_once( "utilities.php" );
 
 require_administrator();
 
-if( empty( $_GET[ 'filename' ] ) ) {
+if( !get_check( 'filename' ) )
+{
 	redirect_main();
 }
 
-unlink( 'style.css' );
-copy( $_GET[ 'filename' ], 'style.css' );
+$sys_config[ 'style' ] = $_GET[ 'filename' ];
+save_config();
+
 redirect( 'admin.php?success=1' );
 
 ?>

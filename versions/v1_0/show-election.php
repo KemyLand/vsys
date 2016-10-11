@@ -7,13 +7,16 @@ require_once( 'meta.php' );
 require_login();
 require_property( 'enable_elections' );
 
-if( empty( $sys_config[ 'sticky_election_id' ] ) ) {
-	if( empty( $_GET[ 'id' ] ) ) {
+if( empty( $sys_config[ 'sticky_election_id' ] ) )
+{
+	if( !get_check( 'id' ) )
+	{
 		redirect_main();
 	}
 
 	$id = $_GET[ 'id' ];
-} else {
+} else
+{
 	$id = $sys_config[ 'sticky_election_id' ];
 }
 
@@ -28,17 +31,10 @@ $parties = explode( ':', $row[ 'proposals' ] );
 $election_status = $row[ 'status' ];
 $election_name = $row[ 'name' ];
 
+upper_header( $election_name );
+
 ?>
 
-<HTML>
-	<HEAD>
-		<META CHARSET="utf-8"/>
-		<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>
-		<TITLE><?php echo( html( $election_name ) ); ?></TITLE>
-	</HEAD>
-	<BODY>
-		<?php upper_header(); ?>
-	<DIV ID="content">
 		<H1 CLASS="center"><?php echo( html( $election_name ) ); ?></H1>
 		<DIV CLASS="separator"></DIV>
 		<TABLE>
@@ -49,9 +45,10 @@ $ids = array();
 $descriptions = array();
 $metas = array();
 
-foreach( $parties as $party ) {
-	$query =
-		'SELECT description FROM Proposals WHERE id='
+foreach( $parties as $party )
+{
+	$query
+		= 'SELECT description FROM Proposals WHERE id='
 		. $party;
 
 	$description = db_query( $conn, $query )->fetch_assoc()[ 'description' ];
@@ -59,28 +56,36 @@ foreach( $parties as $party ) {
 	array_push( $ids, $party );
 
 	$meta = get_proposal_meta( $party );
-	foreach( $meta as $k => $v ) {
-		if( isset( $metas[ $k ] ) ) {
+	foreach( $meta as $k => $v )
+	{
+		if( isset( $metas[ $k ] ) )
+		{
 			$metas[ $k ][ $party ] = $v;
-		} else {
+		} else
+		{
 			$metas[ $k ] = array( $party => $v );
 		}
 	}
 }
 
 echo( '<TR><TD></TD>' );
-foreach( $ids as $id ) {
+foreach( $ids as $id )
+{
 	echo( '<TH>' . html( $descriptions[ $id ] ) . '</TH>' );
 }
 
 echo( '</TR>' );
 
-foreach( $metas as $k => $v ) {
+foreach( $metas as $k => $v )
+{
 	echo( '<TR><TH>' . $k . '</TH>' );
-	foreach( $ids as $id ) {
-		if( isset( $v[ $id ] ) ) {
+	foreach( $ids as $id )
+	{
+		if( isset( $v[ $id ] ) )
+		{
 			echo( '<TD>' . $v[ $id ] . '</TD>' );
-		} else {
+		} else
+		{
 			echo( '<TD></TD>' );
 		}
 	}
@@ -89,11 +94,12 @@ foreach( $metas as $k => $v ) {
 }
 
 echo( '<TR><TD></TD>' );
-foreach( $ids as $id ) {
-	echo(
-		'<TD><A HREF="perform-vote.php?id='
-		. $id
-		. '">Votar a favor</A></TD>'
+foreach( $ids as $id )
+{
+	echo
+	( '<TD><A HREF="perform-vote.php?id='
+	. $id
+	. '">Votar a favor</A></TD>'
 	);
 }
 
@@ -116,51 +122,60 @@ echo( '</TR>' );
 
 <?php
 
-if( $_SESSION[ 'class' ] >= 2 ) {
-	if( !$sys_config[ 'enable_distributed_mode' ] || $id != $sys_config[ 'distributed_mode_election' ] ) {
+if( $_SESSION[ 'class' ] >= 2 )
+{
+	if( !$sys_config[ 'enable_distributed_mode' ] || $id != $sys_config[ 'distributed_mode_election' ] )
+	{
 		$query = 'SELECT username, first_name, last_name, class FROM Users';
 		$result = db_query( $conn, $query );
-		while( $row = $result->fetch_assoc() ) {
+		while( $row = $result->fetch_assoc() )
+		{
 			$username = $row[ 'username' ];
 			$first_name = $row[ 'first_name' ];
 			$last_name = $row[ 'last_name' ];
 			$user_class = $row[ 'class' ];
 
-			echo(
-				'<TR><TD>'
-				. html( $first_name )
-				. ' '
-				. html( $last_name )
-				. '</TD>'
+			echo
+			( '<TR><TD>'
+			. html( $first_name )
+			. ' '
+			. html( $last_name )
+			. '</TD>'
 			);
 
-			if( $user_class <= 1 ) {
+			if( $user_class <= 1 )
+			{
 				$formatted_status = get_status_image( 0 );
-				foreach( $parties as $party_id ) {
-					if( db_already_voted( $conn, $username, $party_id ) ) {
+				foreach( $parties as $party_id )
+				{
+					if( db_already_voted( $conn, $username, $party_id ) )
+					{
 						$formatted_status = get_status_image( 1 );
 						break;
 					}
 				}
-			} else {
+			} else
+			{
 				$formatted_status = get_status_image( 2 );
 			}
 
-			echo(
-				'<TD>'
-				. $formatted_status
-				. '</TD></TR>'
+			echo
+			( '<TD>'
+			. $formatted_status
+			. '</TD></TR>'
 			);
 		}
-	} else {
+	} else
+	{
 		$query = 'SELECT user, skipped FROM DistributedUsers';
 		$result = db_query( $conn, $query );
-		while( $row = $result->fetch_assoc() ) {
+		while( $row = $result->fetch_assoc() )
+		{
 			$user_id = $row[ 'user' ];
 			$skipped = $row[ 'skipped' ];
 
-			$query =
-				'SELECT username, first_name, last_name FROM Users WHERE id='
+			$query
+				= 'SELECT username, first_name, last_name FROM Users WHERE id='
 				. $user_id;
 
 			$subresult = db_query( $conn, $query )->fetch_assoc();
@@ -168,27 +183,30 @@ if( $_SESSION[ 'class' ] >= 2 ) {
 			$first_name = $subresult[ 'first_name' ];
 			$last_name = $subresult[ 'last_name' ];
 
-			echo(
-				'<TR><TD>'
-				. html( $first_name )
-				. ' '
-				. html( $last_name )
-				. '</TD>'
+			echo
+			( '<TR><TD>'
+			. html( $first_name )
+			. ' '
+			. html( $last_name )
+			. '</TD>'
 			);
 
 			$already_voted = db_already_voted_election( $conn, $username, $id );
-			if( $already_voted ) {
+			if( $already_voted )
+			{
 				$formatted_status = get_status_image( 1 );
-			} elseif( $skipped ) {
+			} elseif( $skipped )
+			{
 				$formatted_status = get_status_image( 2 );
-			} else {
+			} else
+			{
 				$formatted_status = get_status_image( 0 );
 			}
 
-			echo(
-				'<TD>'
-				. $formatted_status
-				. '</TD></TR>'
+			echo
+			( '<TD>'
+			. $formatted_status
+			. '</TD></TR>'
 			);
 		}
 	}
@@ -201,6 +219,4 @@ db_disconnect( $conn );
 <?php if( $_SESSION[ 'class' ] >= 2 ): ?>
 		</TABLE>
 <?php endif; ?>
-	</DIV>
-	</BODY>
-</HTML>
+<?php lower_header(); ?>

@@ -20,7 +20,11 @@ foreach( explode( ',', $version_current[ 'srcs' ] ) as $src )
 
 foreach( explode( ',', $new_version[ 'srcs' ] ) as $src )
 {
-	file_put_contents( $src, file_get_contents( $config_paths[ 'versions' ] . '/' . $id . '/' . $src ) );
+	file_put_contents
+	(
+		$src,
+		file_get_contents( $config_paths[ 'versions' ] . PATH_SEPARATOR . $id . PATH_SEPARATOR . $src )
+	);
 }
 
 $version_current_id = $id;

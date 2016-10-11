@@ -8,127 +8,174 @@ date_default_timezone_set( 'America/Costa_Rica' );
 $config_paths = parse_ini_file( 'paths.ini' );
 $sys_config = parse_ini_file( $config_paths[ 'sys' ] );
 
-$ellipsis
-	= '<SPAN CLASS="ellipsis">&#8230;</SPAN>';
-
-$checkmark
-	= '<SPAN CLASS="checkmark">&#10004;</SPAN>';
-
-$crossmark
-	= '<SPAN CLASS="crossmark">&#10008;</SPAN>';
+$ellipsis = '<SPAN CLASS="ellipsis">&#8230;</SPAN>';
+$checkmark = '<SPAN CLASS="checkmark">&#10004;</SPAN>';
+$crossmark = '<SPAN CLASS="crossmark">&#10008;</SPAN>';
 
 $vote_limit_in_minutes = 30;
 
-function upper_header()
+function get_check( $what )
+{
+	return isset( $_GET[ $what ] );
+}
+
+function get_bool( $what )
+{
+	return get_check( $what ) && $_GET[ $what ] == 1;
+}
+
+function post_check( $what )
+{
+	return isset( $_POST[ $what ] );
+}
+
+function post_bool( $what )
+{
+	return post_check( $what ) && $_POST[ $what ] == 1;
+}
+
+function html( $what )
+{
+	return str_replace( '\n', '<BR/>', htmlspecialchars( $what ) );
+}
+
+function upper_header( $title, $show_header = TRUE )
 {
 	global $sys_config;
-	if( $sys_config[ 'show_menubar' ] ) {
-		echo(
-			'<UL ID="upperHeader">'
-		);
+	echo
+	( '<!DOCTYPE html/>'
+	. '<HEAD>'
+	. '<META CHARSET="UTF-8"/>'
+	. '<LINK REL="stylesheet" TYPE="text/css" HREF="style.css"/>'
+	. '<TITLE>' . html( $title ) . '</TITLE>'
+	. '</HEAD>'
+	. '<BODY>'
+	);
 
-		if( $_SESSION[ 'class' ] <= 2 ) {
-			echo(
-				'<LI>'
-				. html($_SESSION[ "last_name" ])
-				. ', '
-				. html($_SESSION[ "first_name" ])
-				. '</LI>'
+	if( $sys_config[ 'show_menubar' ] && $show_header )
+	{
+		echo( '<UL ID="upperHeader">' );
+
+		if( $_SESSION[ 'class' ] <= 2 )
+		{
+			echo
+			( '<LI>'
+			. html($_SESSION[ "last_name" ])
+			. ', '
+			. html($_SESSION[ "first_name" ])
+			. '</LI>'
 			);
-		} else {
+		} else
+		{
 			echo( '<LI>Usuario hipervisor</LI>' );
 		}
 
-		if( $sys_config[ 'enable_proposals' ] ) {
-			echo(
-				'<LI><A HREF="votes.php">Registro de votos</A></LI>'
-				. '<LI><A HREF="proposals.php">Propuestas</A></LI>'
+		if( $sys_config[ 'enable_proposals' ] )
+		{
+			echo
+			( '<LI><A HREF="votes.php">Registro de votos</A></LI>'
+			. '<LI><A HREF="proposals.php">Propuestas</A></LI>'
 			);
 		}
 
-		if( $sys_config[ 'enable_elections_page' ] ) {
+		if( $sys_config[ 'enable_elections_page' ] )
+		{
 			echo( '<LI><A HREF="elections.php">Elecciones</A></LI>' );
 		}
 
-		if( $_SESSION[ 'class' ] >= 1 ) {
+		if( $_SESSION[ 'class' ] >= 1 )
+		{
 			echo( '<LI><A HREF="mod.php">Panel de moderación</A></LI>' );
 		}
 
-		if( $_SESSION[ 'class' ] >= 2 ) {
+		if( $_SESSION[ 'class' ] >= 2 )
+		{
 			echo( '<LI><A HREF="admin.php">Panel de administración</A></LI>' );
 		}
 
-		if( $sys_config[ 'enable_about_page' ] ) {
+		if( $sys_config[ 'enable_about_page' ] )
+		{
 			echo( '<LI><A HREF="about.php">Acerca de</A></LI>' );
 		}
 
-		if( $sys_config[ 'enable_unauthenticate' ] ) {
+		if( $sys_config[ 'enable_unauthenticate' ] )
+		{
 			echo( '<LI><A HREF="unauthenticate.php">Salir</A></LI>' );
 		}
 
 		echo( '</UL><DIV CLASS="separator"></DIV>' );
-		if( !empty( $_GET[ 'denied' ] ) ) {
-			echo(
-				'<DIV CLASS="errorMessage center">Acceso denegado a '
-				. html( $_GET[ 'denied' ] )
-				. '.</DIV></DIV CLASS="separator"></DIV>'
+		if( get_check( 'denied' ) )
+		{
+			echo
+			( '<DIV CLASS="errorMessage center">Acceso denegado a '
+			. html( $_GET[ 'denied' ] )
+			. '.</DIV></DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET[ 'function_disabled' ] ) && $_GET[ 'function_disabled' ] == 1 ) {
-			echo(
-				'<DIV CLASS="errorMessage center">Esta función ha sido deshabilitada.</DIV>'
-				. '</DIV CLASS="separator"></DIV>'
+		if( get_bool( 'function_disabled' ) )
+		{
+			echo
+			( '<DIV CLASS="errorMessage center">Esta función ha sido deshabilitada.</DIV>'
+			. '</DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET[ 'requires_user' ] ) && $_GET[ 'requires_user' ] == 1 ) {
-			echo(
-				'<DIV CLASS="errorMessage center">Esta función no puede ser ejecutada por el usuario hipervisor.</DIV>'
-				. '</DIV CLASS="separator"></DIV>'
+		if( get_bool( 'requires_user' ) )
+		{
+			echo
+			( '<DIV CLASS="errorMessage center">Esta función no puede ser ejecutada por el usuario hipervisor.</DIV>'
+			. '</DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET[ 'already_voted' ] ) && $_GET[ 'already_voted' ] == 1 ) {
+		if( get_bool( 'already_voted' ) )
+		{
 			echo(
 				'<DIV CLASS="errorMessage center">Usted ya ha votado por esta propuesta.</DIV>'
 				. '<DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET [ 'already_voted_election' ] ) && $_GET[ 'already_voted_election' ] == '1' ) {
-			echo(
-			    '<DIV CLASS="errorMessage center">Usted ya ha votado en esta elección.'
-		        . '</DIV><DIV CLASS="separator"></DIV>'
-		    );
-		}
-
-		if( !empty( $_GET[ 'vote_success' ] ) && $_GET[ 'vote_success' ] == 1 ) {
-			echo(
-				'<DIV CLASS="infoMessage center">Se ha realizado la votación exitosamente.</DIV>'
-				. '</DIV CLASS="separator"></DIV>'
+		if( get_bool( 'already_voted_election' ) )
+		{
+			echo
+			( '<DIV CLASS="errorMessage center">Usted ya ha votado en esta elección.'
+			     . '</DIV><DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET[ 'postulate_success' ] ) && $_GET[ 'postulate_success' ] == 1 ) {
-			echo(
-				'<DIV CLASS="infoMessage center">Propuesta postulada exitosamente.</DIV>'
-				. '<DIV CLASS="separator"></DIV>'
+		if( get_bool( 'vote_success' ) )
+		{
+			echo
+			( '<DIV CLASS="infoMessage center">Se ha realizado la votación exitosamente.</DIV>'
+			. '</DIV CLASS="separator"></DIV>'
 			);
 		}
 
-		if( !empty( $_GET[ 'success' ] ) && $_GET[ 'success' ] == 1 ) {
-			echo(
-				'<DIV CLASS="infoMessage center">Operación realizada exitosamente.</DIV>'
-				. '<DIV CLASS="separator"></DIV>'
+		if( get_bool( 'postulate_success' ) )
+		{
+			echo
+			( '<DIV CLASS="infoMessage center">Propuesta postulada exitosamente.</DIV>'
+			. '<DIV CLASS="separator"></DIV>'
+			);
+		}
+
+		if( get_bool( 'success' ) )
+		{
+			echo
+			( '<DIV CLASS="infoMessage center">Operación realizada exitosamente.</DIV>'
+			. '<DIV CLASS="separator"></DIV>'
 			);
 		}
 	}
+
+	echo( '<DIV ID="content">' );
 }
 
-function html( $what )
+function lower_header()
 {
-	return str_replace( "\n", "<BR/>", htmlspecialchars( $what ) );
+	echo( '</DIV></BODY></HTML>' );
 }
 
 function redirect( $url )
@@ -140,13 +187,13 @@ function redirect( $url )
 function redirect_main( $addend = '' )
 {
 	global $sys_config;
-
 	redirect( $sys_config[ 'main_page' ] . $addend );
 }
 
 function require_non_hypervisor()
 {
-	if( $_SESSION[ 'class' ] == '3' ) {
+	if( $_SESSION[ 'class' ] == '3' )
+	{
 		redirect_main( '?requires_user=1' );
 	}
 }
@@ -157,7 +204,8 @@ function require_login()
 
 	session_name( "szLogin" );
 	session_start();
-	if( $_SESSION[ 'login' ] != 1 ) {
+	if( $_SESSION[ 'login' ] != 1 )
+	{
 		redirect( 'login.php' );
 	}
 }
@@ -165,7 +213,8 @@ function require_login()
 function require_moderator()
 {
 	require_login();
-	if( $_SESSION[ 'class' ] < 1 ) {
+	if( $_SESSION[ 'class' ] < 1 )
+	{
 		redirect_main( '?denied=panel%20de%20moderaci%C3%B3n' );
 	}
 }
@@ -173,46 +222,72 @@ function require_moderator()
 function require_administrator()
 {
 	require_login();
-	if( $_SESSION[ 'class' ] < 2 ) {
+	if( $_SESSION[ 'class' ] < 2 )
+	{
 		redirect_main( '?denied=panel%20de%20administraci%C3%B3n' );
 	}
 }
 
-function require_property( $property, $tester = TRUE )
+function require_property
+(
+	$property,
+	$tester = TRUE
+)
 {
 	global $sys_config;
-	( $sys_config[ $property ] == $tester ) or redirect_main( '?function_disabled=1' );
+	if( $sys_config[ $property ] != $tester )
+	{
+		redirect_main( '?function_disabled=1' );
+	}
 }
 
-function filter_order( $order, $date_column, $votes_column )
+function filter_order
+(
+	$order,
+	$date_column,
+	$votes_column
+)
 {
-	if( $order == 'most-popular' && $votes_column ) {
+	if( $order == 'most-popular' && $votes_column )
+	{
 		return 'ORDER BY ' . $votes_column . ' ASC';
-	} elseif( $order == 'least-popular' && $votes_column ) {
+	} elseif( $order == 'least-popular' && $votes_column )
+	{
 		return 'ORDER BY ' . $votes_column . ' DESC';
-	} elseif( $order == 'oldest' ) {
+	} elseif( $order == 'oldest' )
+	{
 		return 'ORDER BY ' . $date_column . ' ASC';
 	}
 
 	return 'ORDER BY ' . $date_column . ' DESC';
 }
 
-function get_status_image( $status )
+function get_status_image
+(
+	$status
+)
 {
 	global $ellipsis, $checkmark, $crossmark;
 
-	if( $status == 0 ) {
+	if( $status == 0 )
+	{
 		return $ellipsis;
-	} elseif( $status == 1 ) {
+	} elseif( $status == 1 )
+	{
 		return $checkmark;
-	} else {
+	} else
+	{
 		return $crossmark;
 	}
 }
 
-function get_status_description( $status )
+function get_status_description
+(
+	$status
+)
 {
-	switch( $status ) {
+	switch( $status )
+	{
 		case 0:
 			return 'Requiere mayoría absoluta para ser aprobada.';
 
@@ -236,9 +311,13 @@ function get_status_description( $status )
 	}
 }
 
-function query_security_assert( $condition )
+function query_security_assert
+(
+	$condition
+)
 {
-	if( !$condition ) {
+	if( !$condition )
+	{
 		die( $condition );
 	}
 }
@@ -255,23 +334,31 @@ function unformat_date( $formatted )
 
 function whole_name()
 {
-	if( $_SESSION[ 'class' ] <= 2 ) {
+	if( $_SESSION[ 'class' ] <= 2 )
+	{
 		return $_SESSION[ 'first_name' ] . ' '  . $_SESSION[ 'last_name' ];
-	} else {
+	} else
+	{
 		return 'usuario hipervisor';
 	}
 }
 
-function make_ini( $a, $parent = array() )
+function make_ini
+(
+	$what,
+	$parent = array()
+)
 {
 	$out = '';
-	foreach( $a as $k => $v ) {
-		if( is_array( $v ) ) {
+	foreach( $what as $k => $v ) {
+		if( is_array( $v ) )
+		{
 			$sec = array_merge( (array) $parent, (array) $k);
 			$out .= '[' . join( '.', $sec ) . ']' . PHP_EOL;
 			$out .= make_ini( $v, $sec );
-		} else {
-			$out .= "$k=\"$v\"" . PHP_EOL;
+		} else
+		{
+			$out .= $k . '="' . $v . '"' . PHP_EOL;
 		}
 	}
 
@@ -282,6 +369,7 @@ function save_config()
 {
 	global $config_paths, $sys_config;
 	file_put_contents( $config_paths[ 'sys' ], make_ini( $sys_config ) );
+	copy( $sys_config[ 'style' ], 'style.css' );
 }
 
 function logout_everyone()

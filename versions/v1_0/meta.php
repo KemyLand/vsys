@@ -7,10 +7,10 @@ function get_proposal_meta
 	$id
 )
 {
-	$meta_ref_filename = 'meta/' . $id . '.ini';
+	$meta_ref_filename = 'meta' . PATH_SEPARATOR . $id . '.ini';
 	if( !file_exists( $meta_ref_filename ) )
 	{
-		return array();	// TODO: Better way to initialize array.
+		return array();
 	}
 
 	$output = array();

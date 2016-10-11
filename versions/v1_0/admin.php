@@ -10,7 +10,7 @@ $conn = db_connect();
 
 upper_header( 'Panel de administración' );
 
-if( get_bool( 'password_mismatch' )
+if( get_bool( 'password_mismatch' ) )
 {
 	echo
 	( '<DIV CLASS="errorMessage center">Las contraseñas no coinciden.</DIV>'

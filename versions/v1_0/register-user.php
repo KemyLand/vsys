@@ -6,12 +6,12 @@ require_once( "db.php" );
 require_administrator();
 
 if
-( !post_check( username' ) ) ||
-  !post_check( password' ) ) ||
-  !post_check( repeat_password' ) ) ||
-  !post_check( first_name' ) ) ||
-  !post_check( last_name' ) ) ||
-  !post_check( class' ) )
+( !post_check( 'username' ) ||
+  !post_check( 'password' ) ||
+  !post_check( 'repeat_password' ) ||
+  !post_check( 'first_name' ) ||
+  !post_check( 'last_name' ) ||
+  !post_check( 'class' ) )
 {
 	redirect_main();
 }

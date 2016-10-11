@@ -6,17 +6,20 @@ require_once( 'db.php' );
 require_login();
 require_property( 'enable_unauthenticate' );
 
-if( $_SESSION[ 'login' ] == 1 ) {
+if( $_SESSION[ 'login' ] == 1 )
+{
 	$conn = db_connect();
-	if( $_SESSION[ 'class' ] <= 2 ) {
-		$event =
-			'Cierre de sesión por '
+	if( $_SESSION[ 'class' ] <= 2 )
+	{
+		$event
+			= 'Cierre de sesión por '
 			. whole_name()
 			. ' desde '
 			. $_SERVER[ 'REMOTE_ADDR' ];
-	} else {
-		$event =
-			'Intento de cierre de sesión por usuario hipervisor desde '
+	} else
+	{
+		$event
+			= 'Intento de cierre de sesión por usuario hipervisor desde '
 			. $_SERVER[ 'REMOTE_ADDR' ];
 	}
 
