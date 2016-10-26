@@ -1,0 +1,40 @@
+<?php
+
+require_once( 'utilities.php' );
+require_once( 'db.php' );
+require_once( 'versions.php' );
+
+db_require_administrator();
+
+$repo = $config_paths[ 'repo' ];
+$remote_version_file = parse_ini_string( file_get_contents( $repo . '/versions.ini' ), TRUE );
+unset( $remote_version_file[ 'current' ] );
+
+$updated = FALSE;
+foreach( $remote_version_file as $k => $v )
+{
+	if( !in_array( $k, array_keys( $versions ) ) )
+	{
+		$versions[ $k ] = $v;
+		$path = $config_paths[ 'versions' ] . DIRECTORY_SEPARATOR . $k;
+		mkdir( $path );
+		foreach( explode( ',', $v[ 'srcs' ] ) as $src )
+		{
+			file_put_contents( $path . DIRECTORY_SEPARATOR . $src, file_get_contents( $repo . '/' . $k . '/' . $src ) );
+		}
+
+		$updated = TRUE;
+	}
+}
+
+save_versions();
+
+if( $updated )
+{
+	redirect( 'version-manager.php?found_update=1' );
+} else
+{
+	redirect( 'version-manager.php?up_to_date=1' );
+}
+
+?>

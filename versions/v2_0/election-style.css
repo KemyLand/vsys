@@ -1,0 +1,175 @@
+HTML
+{
+	font-family: Gill Sans, Verdana;
+	font-size: 11px;
+	line-height: 14px;
+	letter-spacing: 2px;
+	font-weight: bold;
+	min-height: 100%;
+	background: linear-gradient( green 0%, white 30%, white 80%, yellow 99% );
+}
+
+TABLE
+{
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	empty-cells: hide;
+}
+
+TABLE:not(.raw), boxed
+{
+	box-shadow: -10px 10px 5px #888888;
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+TH:not(.borderless)
+{
+	border: 2px dotted black;
+}
+
+TD:not(.borderless)
+{
+	border: 1px double dimgrey;
+}
+
+TD, TH
+{
+	padding: 10px;
+	text-align: center;
+}
+
+.ellipsis
+{
+	font-size: 25px;
+	color: #202020;
+}
+
+.checkmark
+{
+	font-size: 25px;
+	color: #000CCC;
+}
+
+.crossmark
+{
+	font-size: 25px;
+	color: #CC0000;
+}
+
+.separator
+{
+	padding-bottom: 35px;
+}
+
+#loginHeader
+{
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #00A0A0;
+	display: block;
+	color: white;
+	font-size: 10px;
+	text-align: center;
+	padding: 14px 16px;
+}
+
+#upperHeader
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #00A000;
+}
+
+#upperHeader LI
+{
+	float: left;
+	display: block;
+	color: white;
+	font-size: 10px;
+	text-align: center;
+	padding: 14px 16px;
+}
+
+#upperHeader LI A
+{
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+#upperHeader LI A:hover
+{
+	background-color: #E0E000;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.errorMessage
+{
+	color: red;
+}
+
+.infoMessage
+{
+	color: blue;
+}
+
+.center
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.monospace
+{
+	font-family: Monospace;
+	font-size: 14;
+}
+
+.source
+{
+	font-family: Monospace;
+	color: white;
+	background: black;
+	text-align: left;
+	border-radius: 10px;
+}
+
+A:not(.raw), BUTTON:not(.raw), INPUT[type="submit"]:not(.raw)
+{
+	background: #909090;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	line-height: 1;
+	border-radius: 5px;
+	box-shadow: 0 1px 3px #999;
+	text-shadow: 0 -1px 1px #222;
+	border-bottom: 1px solid #222;
+	position: relative;
+	cursor: pointer;
+}
+
+#content
+{
+	background-color: rgba( 221, 221, 221, 0.75 );
+	width: 85%;
+	margin: auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	box-shadow: -2px 2px #777777;
+	border-radius: 10px;
+}
