@@ -15,10 +15,11 @@ if( !post_check( 'username' ) || !post_check( 'password' ) )
 	redirect( 'login.php' );
 }
 
-$username = mysqli_real_escape_string( $_POST[ 'username' ] );
-$password = mysqli_real_escape_string( $_POST[ 'password' ] );
-
 $conn = db_connect();
+
+$username = mysqli_real_escape_string( $conn, $_POST[ 'username' ] );
+$password = mysqli_real_escape_string( $conn, $_POST[ 'password' ] );
+
 $query
 	= 'SELECT COUNT(*) FROM Users WHERE username="'
 	. $username

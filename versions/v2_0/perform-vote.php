@@ -45,7 +45,7 @@ $query
 
 db_query( $conn, $query );
 
-$query = 'UPDATE Proposals SET total_votes = total_votes + 1 WHERE id=' . $id;
+//$query = 'UPDATE Proposals SET total_votes = total_votes + 1 WHERE id=' . $id;
 db_query( $conn, $query );
 
 $event = 'Voto a favor de propuesta #' . $id;
